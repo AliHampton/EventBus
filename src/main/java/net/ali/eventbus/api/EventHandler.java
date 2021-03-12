@@ -6,14 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * An annotation that specifies properties of a event handler
+ * An annotation that specifies properties of a event handler.
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventHandler {
 
     /**
-     * Defines the {@code IEvent}s a handler will be invoked on
+     * Defines the {@code IEvent}s a handler will be invoked on.
      *
      * @return an array of {@code IEvent}s
      */
@@ -21,7 +21,7 @@ public @interface EventHandler {
 
     /**
      * Defines the priority of a handler.
-     * Events will be invoked in order from highest priority to lowest
+     * Events will be invoked in order from highest priority to lowest.
      *
      * @return a {@code Priority} enum
      */

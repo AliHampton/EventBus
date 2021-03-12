@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 /**
- * An implementation of {@code IEventBus} that can store {@code IEventListener} to listener for given {@code IEvent}s
+ * An implementation of {@code IEventBus} that can store {@code IEventListener} to listener for given {@code IEvent}s.
  */
 public class EventBus implements IEventBus {
 

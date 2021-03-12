@@ -6,7 +6,7 @@ import net.ali.eventbus.api.IEventListener;
 import net.ali.eventbus.api.Priority;
 
 /**
- * A class that encapsulates data involved with a {@code IListener}'s {@code EventHandler}
+ * A class that encapsulates data involved with a {@code IListener}'s {@code EventHandler}.
  */
 public class HandlerEncapsulation {
 
