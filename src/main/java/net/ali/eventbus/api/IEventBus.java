@@ -43,10 +43,10 @@ public interface IEventBus {
 
     /**
      * Fires a event asynchronously by invoking all listeners listening to the given event.
-     * Allows callbacks to be specified that will be invoked after each listener is invoked.
+     * Once all listeners have been invoked the callback will be invoked.
      *
      * @param event a event
-     * @param callbacks a callback
+     * @param callback a callback
      */
-    <T extends IEvent> void fireEventASync(T event, Consumer<T> callbacks);
+    <T extends IEvent> void fireEventASync(T event, Consumer<T> callback);
 }

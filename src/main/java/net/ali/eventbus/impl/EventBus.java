@@ -49,11 +49,11 @@ public class EventBus implements IEventBus {
     }
 
     @Override
-    public <T extends IEvent> void fireEventASync(T event, Consumer<T> callbacks) {
-        getHandlers(event.getClass()).forEach(handler -> EXECUTOR_SERVICE.submit(() -> {
-            handler.getTask().accept(event);
-            callbacks.accept(event);
-        }));
+    public <T extends IEvent> void fireEventASync(T event, Consumer<T> callback) {
+        EXECUTOR_SERVICE.submit(() -> {
+            getHandlers(event.getClass()).forEach(handler -> handler.getTask().accept(event));
+            callback.accept(event);
+        });
     }
 
     private void registerHandlers(IEventListener listener) {
