@@ -39,7 +39,7 @@ public class EventBus implements IEventBus {
 
     @Override
     public void fireEventASync(IEvent event) {
-        getHandlers(event.getClass()).forEach(handler -> EXECUTOR_SERVICE.submit(() -> handler.getTask().accept(event)));
+        EXECUTOR_SERVICE.submit(() -> getHandlers(event.getClass()).forEach(handler -> handler.getTask().accept(event)));
     }
 
     @Override
