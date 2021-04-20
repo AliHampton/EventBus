@@ -1,7 +1,7 @@
 package net.ali.eventbus.api;
 
 /**
- * A enum that represents different event priorities.
+ * An enum that represents different event priorities.
  * The higher the priority the earlier it will be invoked with respect to other listener handlers.
  */
 public enum Priority {

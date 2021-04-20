@@ -27,25 +27,25 @@ public interface IEventBus {
     void clearListeners();
 
     /**
-     * Fires a event asynchronously by invoking all listeners listening to the given event.
+     * Fires an event asynchronously by invoking all listeners listening to the given event.
      *
-     * @param event a event
+     * @param event an event
      */
     void fireEventASync(IEvent event);
 
     /**
-     * Fires a event synchronously by invoking all listeners listening to the given event.
+     * Fires an event synchronously by invoking all listeners listening to the given event.
      *
-     * @param event a event
+     * @param event an event
      * @return event the event fired
      */
     <T extends IEvent> T fireEventSync(T event);
 
     /**
-     * Fires a event asynchronously by invoking all listeners listening to the given event.
+     * Fires an event asynchronously by invoking all listeners listening to the given event.
      * Once all listeners have been invoked the callback will be invoked.
      *
-     * @param event a event
+     * @param event an event
      * @param callback a callback
      */
     <T extends IEvent> void fireEventASync(T event, Consumer<T> callback);
