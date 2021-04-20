@@ -20,7 +20,7 @@ public class EventBus implements IEventBus {
     public EventBus() {
         EVENT_REGISTRY = new HashMap<>();
         EXECUTOR_SERVICE = Executors.newCachedThreadPool();
-    }   
+    }
 
     @Override
     public void registerListener(IEventListener listener) {
@@ -39,19 +39,19 @@ public class EventBus implements IEventBus {
 
     @Override
     public void fireEventASync(IEvent event) {
-        EXECUTOR_SERVICE.submit(() -> getHandlers(event.getClass()).forEach(handler -> handler.getTask().accept(event)));
+        EXECUTOR_SERVICE.submit(() -> invokeHandlersForEvent(event));
     }
 
     @Override
     public <T extends IEvent> T fireEventSync(T event) {
-        getHandlers(event.getClass()).forEach(handler -> handler.getTask().accept(event));
+        invokeHandlersForEvent(event);
         return event;
     }
 
     @Override
     public <T extends IEvent> void fireEventASync(T event, Consumer<T> callback) {
         EXECUTOR_SERVICE.submit(() -> {
-            getHandlers(event.getClass()).forEach(handler -> handler.getTask().accept(event));
+            invokeHandlersForEvent(event);
             callback.accept(event);
         });
     }
@@ -79,6 +79,10 @@ public class EventBus implements IEventBus {
                 EVENT_REGISTRY.put(clazz, new CopyOnWriteArrayList<>(List.of(handlerEncapsulation)));
             }
         }
+    }
+
+    private void invokeHandlersForEvent(IEvent event) {
+        getHandlers(event.getClass()).forEach(handler -> handler.getTask().accept(event));
     }
 
     private List<HandlerEncapsulation> getHandlers(Class<? extends IEvent> clazz) {
