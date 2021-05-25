@@ -3,13 +3,16 @@ import net.ali.eventbus.impl.EventBus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class EventBusTest {
 
     private IEventBus bus;
+    private static final long MAX_TIMEOUT = 1L;
 
     @BeforeEach
     public void createEventBusInstance() {
@@ -17,6 +20,7 @@ public class EventBusTest {
     }
 
     @Test
+    @Timeout(MAX_TIMEOUT)
     public void testFireEventSync() {
         createAndRegisterSuccessListener();
 
@@ -28,6 +32,7 @@ public class EventBusTest {
     }
 
     @Test
+    @Timeout(MAX_TIMEOUT)
     public void testFireEventASync() throws InterruptedException {
         createAndRegisterSuccessListener();
 
@@ -42,20 +47,17 @@ public class EventBusTest {
     }
 
     @Test
-    public void testFireEventASyncCallback() throws InterruptedException{
+    @Timeout(MAX_TIMEOUT)
+    public void testFireEventASyncCallback() throws InterruptedException {
         //Create listeners that will arbitrarily modify the TestEvent class
         bus.registerListener(new IEventListener() {
             @EventHandler(events = TestEvent.class)
-            private final EventTask<TestEvent> onTestEvent = testEvent -> {
-                testEvent.codes.add(0);
-            };
+            private final EventTask<TestEvent> onTestEvent = testEvent -> testEvent.codes.add(0);
         });
 
         bus.registerListener(new IEventListener() {
             @EventHandler(events = TestEvent.class)
-            private final EventTask<TestEvent> onTestEvent = testEvent -> {
-                testEvent.codes.add(1);
-            };
+            private final EventTask<TestEvent> onTestEvent = testEvent -> testEvent.codes.add(1);
         });
 
         TestEvent event = new TestEvent();
@@ -66,10 +68,11 @@ public class EventBusTest {
         Thread.sleep(100L); //Sleep to allow the handlers to run
 
         // Check if the callback is the same event object
-        Assertions.assertEquals(event, eventCallback.get(), "The callback didn't return correctly or in time");
+        Assertions.assertSame(event, eventCallback.get(), "The callback didn't return correctly or in time");
     }
 
     @Test
+    @Timeout(MAX_TIMEOUT)
     public void testUnregisterListener() {
         IEventListener listener = createAndRegisterSuccessListener();
 
@@ -83,6 +86,7 @@ public class EventBusTest {
 
 
     @Test
+    @Timeout(MAX_TIMEOUT)
     public void testPrioritySync() {
         //Create three listeners that update the Event's code to different values
         bus.registerListener(new IEventListener() {
@@ -116,7 +120,8 @@ public class EventBusTest {
     }
 
     @Test
-    public void testPriorityASync() throws InterruptedException{
+    @Timeout(MAX_TIMEOUT)
+    public void testPriorityASync() throws InterruptedException {
         //Create three listeners that update the Event's code to different values
         bus.registerListener(new IEventListener() {
             @EventHandler(events = TestEvent.class, priority = Priority.LOW)
@@ -156,9 +161,7 @@ public class EventBusTest {
         //Create a listener that will update the success value to true within the TestEvent class
         IEventListener listener = new IEventListener() {
             @EventHandler(events = TestEvent.class)
-            private final EventTask<TestEvent> onTestEvent = testEvent -> {
-                testEvent.success = true;
-            };
+            private final EventTask<TestEvent> onTestEvent = testEvent -> testEvent.success = true;
         };
         bus.registerListener(listener);
 
