@@ -18,7 +18,7 @@ public class ExampleEvent implements IEvent {
 
 3. Implement IEventListener and add an event handler
 ```java
-public class ExampleListener implements IEventListener {
+IEventListener listener = new IEventListener() {
 
     @EventHandler(events = ExampleEvent.class, priority = Priority.LOW)
     private final EventTask<ExampleEvent> onTestEvent = exampleEvent -> {
@@ -28,7 +28,12 @@ public class ExampleListener implements IEventListener {
 }
 ```
 
-4. Fire event(s)
+4. Register listener(s)
+```java
+eventBus.registerListener(listener);
+```
+
+5. Fire event(s)
 ```java
 eventBus.fireEventSync(new ExampleEvent());
 ```
